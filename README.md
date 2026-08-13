@@ -1,25 +1,38 @@
 # Cybersecurity Toolkit
 
-An Advanced Defensive Security Toolkit developed by **Roshab Bhandari**.
+An advanced defensive security toolkit developed by **Roshab Bhandari**.
 
-## Overview
-This toolkit provides a suite of advanced cybersecurity modules built in Python. It includes a dynamic, colorful CLI utilizing the `rich` library.
+## Features
 
-### Current Features
-* **Network & Reconnaissance**
-  * Threaded Port Scanner (with banner grabbing)
-  * DNS / Subdomain Recon (Passive)
-  * SSL/TLS Certificate Checker
-* **Cryptography & Identity Management**
-  * Password Strength Analyzer
-  * File Encryptor / Decryptor (AES-256)
-  * Hash Toolkit
-  * Data Encoder / Decoder
-  * Password Complexity Validator
-  * SSH Key Pair Generator
-  * JWT Token Inspector
+### Network & Reconnaissance
+- Threaded port scanner with banner grabbing
+- Passive DNS / subdomain reconnaissance
+- SSL/TLS certificate checker
+
+### Cryptography & Identity
+- Password strength analyzer
+- AES-256 file encryption / decryption
+- Hash generation and identification
+- Base64, Hex, Binary, URL and ROT13 encoding
+- Password complexity validator
+- RSA / Ed25519 SSH key generation
+- JWT token inspector
+
+### Endpoint Security & Forensics
+- Local system security audit
+- File SHA-256 integrity checker
+- File permission audit
+
+### Log Analysis & Incident Response
+- SSH failed-login analyzer
+- JSON incident findings export
+
+### Compliance & Configuration
+- HTTP security headers audit
+- Defensive security checklist
 
 ## Installation
+
 ```bash
 git clone https://github.com/roshabbhandari/Cybersec-Toolkit.git
 cd Cybersec-Toolkit
@@ -27,7 +40,13 @@ pip install -r requirements.txt
 ```
 
 ## Usage
-Run the main script to open the interactive menu:
+
 ```bash
 python main.py
 ```
+
+Only use network and web auditing features on systems you own or have explicit permission to assess.
+
+## Version
+
+**v2.1 — Defensive modules activated**
