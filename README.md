@@ -1,5 +1,9 @@
 # Cybersecurity Toolkit
 
+![Status](https://img.shields.io/badge/status-active-brightgreen)
+![Python](https://img.shields.io/badge/python-3.11+-blue)
+![License](https://img.shields.io/badge/license-MIT-green)
+
 An advanced defensive security toolkit developed by **Roshab Bhandari**.
 
 ## Features
@@ -45,8 +49,16 @@ pip install -r requirements.txt
 python main.py
 ```
 
+## Roadmap
+- Interactive terminal dashboard
+- Report export (HTML/PDF)
+- Plugin system
+- Dark UI desktop version
+- Cross-platform packaging
+
+## Project Status
+- Current version: **v2.2**
+- Focus: Defensive cybersecurity utilities
+- Goal: Build a practical toolkit for students and security enthusiasts.
+
 Only use network and web auditing features on systems you own or have explicit permission to assess.
-
-## Version
-
-**v2.1 — Defensive modules activated**
