@@ -22,6 +22,13 @@ from core.jwt_inspector import JWTInspector
 from core.system_audit import SystemAudit
 from core.integrity_checker import IntegrityChecker
 from core.security_headers import SecurityHeaders
+from core.password_strength import PasswordStrength
+from core.file_integrity import FileIntegrity
+from core.url_safety import URLSafety
+from core.hash_generator import HashGenerator
+from core.system_snapshot import SystemSnapshot
+from core.jwt_decoder import JWTDecoder
+from core.report_exporter import ReportExporter
 
 console = Console()
 
@@ -34,9 +41,9 @@ def pause():
 def show_banner():
     banner = r'''  ____      _                 ____               _____           _ _    _ _
  / ___|   _| |__   ___ _ __  / ___|  ___  ___   |_   _|__   ___ | | | _(_) |_
-| |  | | | | '_ \ / _ \ '__| \___ \ / _ \/ __|    | |/ _ \ / _ \| | |/ / | __|
+| |  | | | | '_ \\ / _ \\ '__| \\___ \\ / _ \\/ __|    | |/ _ \\ / _ \\| | |/ / | __|
 | |__| |_| | |_) |  __/ |     ___) |  __/ (__     | | (_) | (_) | |   <| | |_
- \____\__,_|_.__/ \___|_|    |____/ \___|\___|    |_|\___/ \___/|_|_|\_\_|\__|'''
+ \\____\\__,_|_.__/ \\___|_|    |____/ \\___|\\___|    |_|\\___/ \\___/|_|_|\\_|\\__|'''
     panel = Panel(
         Align.center(
             Text(banner, style="bold cyan")
@@ -44,7 +51,7 @@ def show_banner():
             + Text("\nDeveloped by: Roshab Bhandari", style="bold green")
         ),
         border_style="cyan",
-        title="[bold yellow]v2.1[/bold yellow]",
+        title="[bold yellow]v2.2[/bold yellow]",
         padding=(1, 2)
     )
     console.print(panel)
@@ -199,6 +206,52 @@ def menu_compliance():
             console.print(Panel("\n".join(f"[green]✓[/green] {item}" for item in checks), title="Defensive Checklist"))
         pause()
 
+def menu_utilities():
+    while True:
+        clear_screen(); show_banner()
+        show_menu("New Defensive Utilities", [
+            ("1", "Password Strength Score"),
+            ("2", "SHA-256 File Integrity Verify"),
+            ("3", "Passive URL Safety Inspection"),
+            ("4", "Text Hash Generator"),
+            ("5", "Read-Only System Snapshot"),
+            ("6", "Local JWT Decoder"),
+            ("7", "Export a JSON Security Report"),
+            ("0", "Back")
+        ])
+        choice = Prompt.ask("\n[bold yellow]Select a utility[/bold yellow]", choices=["1", "2", "3", "4", "5", "6", "7", "0"])
+        if choice == "0": return
+        try:
+            if choice == "1":
+                result = PasswordStrength.analyze(Prompt.ask("[cyan]Password[/cyan]", password=True))
+                console.print(Panel(json.dumps(result, indent=2), title="Password Strength"))
+            elif choice == "2":
+                path = Prompt.ask("[cyan]File path[/cyan]")
+                digest = FileIntegrity.sha256(path)
+                expected = Prompt.ask("[cyan]Expected SHA-256 (leave blank to only calculate)[/cyan]", default="")
+                console.print(f"SHA-256: [green]{digest}[/green]")
+                if expected: console.print("[green]MATCH[/green]" if FileIntegrity.verify(path, expected) else "[red]MISMATCH[/red]")
+            elif choice == "3":
+                result = URLSafety.inspect(Prompt.ask("[cyan]URL[/cyan]"))
+                console.print(Panel(json.dumps(result, indent=2), title="URL Safety Inspection"))
+            elif choice == "4":
+                text = Prompt.ask("[cyan]Text[/cyan]")
+                algo = Prompt.ask("[cyan]Algorithm[/cyan]", choices=["md5", "sha1", "sha256", "sha512"], default="sha256")
+                console.print(HashGenerator.text(text, algo))
+            elif choice == "5":
+                console.print(Panel(json.dumps(SystemSnapshot.collect(), indent=2), title="System Snapshot"))
+            elif choice == "6":
+                result = JWTDecoder.decode(Prompt.ask("[cyan]JWT token[/cyan]"))
+                console.print(Panel(json.dumps(result, indent=2), title="JWT Decode (no signature verification)"))
+            elif choice == "7":
+                output = Prompt.ask("[cyan]Output JSON path[/cyan]", default="security-report.json")
+                note = Prompt.ask("[cyan]Report note[/cyan]", default="Manual defensive assessment")
+                path = ReportExporter.save({"note": note}, output)
+                console.print(f"[green]Report saved:[/green] {path}")
+        except Exception as exc:
+            console.print(f"[red]Error: {exc}[/red]")
+        pause()
+
 def main():
     while True:
         clear_screen(); show_banner()
@@ -208,14 +261,16 @@ def main():
             ("3", "Endpoint Security & Forensics"),
             ("4", "Log Analysis & Incident Response"),
             ("5", "Compliance, Cloud & Configuration"),
+            ("6", "New Defensive Utilities"),
             ("0", "Exit")
         ])
-        choice = Prompt.ask("\n[bold yellow]Select a category[/bold yellow]", choices=["1", "2", "3", "4", "5", "0"])
+        choice = Prompt.ask("\n[bold yellow]Select a category[/bold yellow]", choices=["1", "2", "3", "4", "5", "6", "0"])
         if choice == "1": menu_network()
         elif choice == "2": menu_crypto()
         elif choice == "3": menu_endpoint()
         elif choice == "4": menu_incident()
         elif choice == "5": menu_compliance()
+        elif choice == "6": menu_utilities()
         else:
             console.print("[green]Goodbye![/green]"); break
 
