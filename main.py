@@ -1,6 +1,6 @@
-import os
-import sys
-import json
+import os as os 
+import sys as sys
+import json as json
 from rich.console import Console
 from rich.panel import Panel
 from rich.prompt import Prompt, IntPrompt
